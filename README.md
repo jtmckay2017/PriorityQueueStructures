@@ -8,10 +8,11 @@ Implement Priority Queues using (1) Dynamic Array, (2) AVL tree, (3) K-ary Min H
 
 ## Table of Contents
 1. [Tasks](#tasks)
-2. [Rules](#rules)
-3. [Submission Instructions](#submission-instructions)
-4. [Grading Rubric](#grading-rubric)
-5. [Useful Links](#external-links)
+2. [Examples](#examples)
+3. [Rules](#rules)
+4. [Submission Instructions](#submission-instructions)
+5. [Grading Rubric](#grading-rubric)
+6. [Useful Links](#external-links)
 
 ## Tasks
 
