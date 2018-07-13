@@ -1,10 +1,10 @@
 
 # Priority Queues (PQ)
 
-- CS 310 Programming Assignment 2 Due: **July 22th** 11:59pm, 2018
+- CS 310 Programming Assignment 3 Due: **July 22th** 11:59pm, 2018
 
 ## Assignment Objective
-Implement Priority Queues using Dynamic Array, AVL tree, K-ary Min Heap and Binomial Min Heap
+Implement Priority Queues using (1) Dynamic Array, (2) AVL tree, (3) K-ary Min Heap and (4) Binomial Min Heap and compare their performances.
 
 ## Table of Contents
 1. [Tasks](#tasks)
