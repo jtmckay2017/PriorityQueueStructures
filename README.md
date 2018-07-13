@@ -100,10 +100,7 @@ import java.io.FileNotFoundException;
 - You CANNOT get points (even style/manual-inspection points) for code that doesn't compile or for submitting just the files given to you with the assignment. You CAN get manual inspection points for code that (a) compiles and (b) is an "honest attempt" at the assignment, but does not pass any unit tests.
 
 #### Manual/Automatic Testing (100%)
-- Your output images will be compared with our output via the following command
-```
-diff your-output.svg my-ouput.svg
-```
+- Your output images will be compared with our output
 
 #### Manual Code Inspection Rubric (10% "off the top" points)
 These are all "off the top" points (i.e. items that will lose you points rather than earn you points):
