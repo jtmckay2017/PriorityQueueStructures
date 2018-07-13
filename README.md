@@ -79,7 +79,7 @@ import java.io.FileNotFoundException;
 - Use the cloud or some other server to backup your code!
 - Remove all test files, jar files, class files, etc.
 - You should just submit your java files and your readme.txt
-- Zip your user folder (not just the files) and name the zip “username-p1.zip” (no other type of archive) where “username” is your username.
+- Zip your user folder (not just the files) and name the zip “username-p3.zip” (no other type of archive) where “username” is your username.
 - Submit to blackboard.
 
 ## Grading Rubric
