@@ -21,7 +21,7 @@ Implement Priority Queues using (1) Dynamic Array, (2) AVL tree, (3) K-ary Min H
 - Implement PQ using Binomial Min Heap (30 pts)
 - Complete README.txt and report performance comparisons (5%)
 
-All four of these PQs must implement PriorityQueue interface defined in PriorityQueue that has the following methods.
+All four of these PQs must implement PriorityQueue interface defined in PriorityQueue.java that has the following methods.
 
 ```java
     //add the given value using the provided priority
