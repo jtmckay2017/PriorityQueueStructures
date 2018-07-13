@@ -1,5 +1,5 @@
 
-# Priority Queues
+# Priority Queues (PQ)
 
 - CS 310 Programming Assignment 2 Due: **July 22th** 11:59pm, 2018
 
