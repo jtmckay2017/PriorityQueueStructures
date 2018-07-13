@@ -23,7 +23,7 @@ Implement Priority Queues using Dynamic Array, AVL tree, K-ary Min Heap and Bino
 
 All four of these PQs must implement PriorityQueue interface defined in PriorityQueue that has the following methods.
 
-'''java
+```java
     //add the given value using the provided priority
     public void enqueue(DataType value, PriorityType priority);
 
@@ -45,7 +45,7 @@ All four of these PQs must implement PriorityQueue interface defined in Priority
 
     //return the size of the given priority queue
     public int size();
-'''
+```
 
 ## Rules
 
