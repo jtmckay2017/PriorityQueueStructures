@@ -47,6 +47,35 @@ All four of these PQs must implement PriorityQueue interface defined in Priority
     public int size();
 ```
 
+## Examples
+
+Using cs310pa3.java to test your code. The usage is:
+
+```
+> java cs310pa3 
+Usage: java cs310pa3 pq-type file
+	pq-type: array avl kary binomial 
+```
+
+We will use the following command to test your code:
+
+```
+> java cs310pa3 array data/words.txt 
+[00] create two Priority queues of type: Dynamic Array
+[01] read 466544 words from data/words.txt
+[02] n=43420 m=21903
+[03] adding 43420 words to PQ#1
+[04] removing 21710 words from PQ#1
+[05] adding 21903 words to PQ#2
+[06] removing 10951 words from PQ#2
+[07] mering PQ#1 and PQ#2 into PQ#3
+[08] clearing PQ#1 and PQ#2
+[09] sorting PQ#3:
+     (...)
+```
+
+The program in cs310pa3.java first creates two PQs and insert **random** words loaded from data/words.txt with **random** prioirties. Then delete half of the elements from both PQS before merge them. Finally, the merged PQ is sorted using heap sort. 
+
 ## Rules
 
 ### You must
