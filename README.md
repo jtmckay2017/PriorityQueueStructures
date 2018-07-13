@@ -19,7 +19,7 @@ Implement Priority Queues using (1) Dynamic Array, (2) AVL tree, (3) K-ary Min H
 - Implement PQ using AVL tree  (25 pts)
 - Implement PQ using K-ary Min Heap  (25 pts)
 - Implement PQ using Binomial Min Heap (30 pts)
-- README.txt (5%)
+- Complete README.txt and report performance comparisons (5%)
 
 All four of these PQs must implement PriorityQueue interface defined in PriorityQueue that has the following methods.
 
