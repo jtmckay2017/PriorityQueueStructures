@@ -26,25 +26,32 @@ All four of these PQs must implement PriorityQueue interface defined in Priority
 
 ```java
     //add the given value using the provided priority
+    //20%
     public void enqueue(DataType value, PriorityType priority);
 
     //remove the value with the highest priority (i.e. smallest priority value)
+    //20%
     public DataType dequeue();
 
     //return the value of the element with highest priority (i.e. smallest priority value)
+    //10%
     public DataType peek();
 
     //return the priority of the element with highest priority
     //(i.e. smallest priority value)
+    //10%
     public PriorityType peekPriority();
 
     //remove everything in the priority queue
+    //10%
     public void clear();
 
     //merge two priority queues into one and return the merged priority queue
+    //20%
     public PriorityQueue  merge(PriorityQueue other);
 
     //return the size of the given priority queue
+    //10%
     public int size();
 ```
 
