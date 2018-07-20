@@ -13,8 +13,7 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     {
       //your code here
     }
-    
-    
+
     //remove the value with the highest priority
     //(i.e. smallest priority value)
     public T dequeue()
