@@ -109,7 +109,7 @@ public class DynamicArrayPQ<T, P extends Comparable<P>> implements PriorityQueue
   }
   
   //Method to pring out and test  contents
-  public void toS(){
+  private void toS(){
     for(int i=0; i<currSize; i++){
       System.out.println(pArray[i].getData() +" | P: " + pArray[i].getPriority());
     }

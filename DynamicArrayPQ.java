@@ -1,22 +1,29 @@
 //implementing Priority Queue using a Dynamic Array that doubles the capacity everytime the array is full
 public class DynamicArrayPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
 {
-  //Size
+  /**
+   * Size
+   */
   private int currSize = 0;
   
-  //Array    
+  /**
+   * Array   
+   */
   @SuppressWarnings("unchecked")
   private Node<T,P>[] pArray = new Node[10];
   
-  //
   
-  //constructor
+  /**
+   * constructor
+   */
   public DynamicArrayPQ()
   {
     
   }
   
-  //add the given value using the provided priority -Done [Working]
+  /**
+   * dd the given value using the provided priority -Done [Working]
+   */
   public void enqueue(T value, P priority)
   {
     @SuppressWarnings("unchecked")

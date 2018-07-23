@@ -108,7 +108,6 @@ public class cs310pa3
         Double prioirty=random.nextDouble();
         pq2.enqueue(word,prioirty);
       }
-
       //remove m/2 from pq2
       System.out.println("[06] removing "+m/2+" words from PQ#2");
       for(int i=0;i<m/2;i++){ pq2.dequeue(); }
