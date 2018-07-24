@@ -26,39 +26,54 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
    */
   
   /**
+   * height function
+   */
+  private int height(Node<T,P> node){
+    if(node==null){return -1;}
+    return 1+max(height(node.left), height(node.right));
+  }
+  
+  /**
+   * private max function to help find height
+   */
+  private int max(int a, int b){
+    if(a>b){return a;}
+    else{return b;}
+  }
+  
+  /**
    * Balance value
    */
   private int balance(Node<T,P> node){
     if(node==null){return 0;}
-    return node.left.getHeight()-node.right.getHeight();
+    return height(node.left)-height(node.right);
   }
   
   /**
    * Left Rotation
    */
-  private void rotateLeft(Node<T,P> currNode){
+  private Node<T,P> rotateLeft(Node<T,P> currNode){
     Node<T,P> newRoot = currNode.right;
     Node<T,P> leftKidOfRight = newRoot.left;
     
-    currNode.left = leftKidOfRight;
     newRoot.left = currNode;
+    currNode.right = leftKidOfRight;
     
-    currNode.updateH();
-    newRoot.updateH();
+    
+    return newRoot;
   }
   
   /**
    * Right Rotation
    */
-  private void rotateRight(Node<T,P> currNode){
+  private Node<T,P> rotateRight(Node<T,P> currNode){
     Node<T,P> newRoot = currNode.left;
     Node<T,P> rightKidOfLeft = newRoot.right;
     
-    currNode.left = rightKidOfLeft;
     newRoot.right = currNode;
+    currNode.left = rightKidOfLeft;
     
-    currNode.updateH();
-    newRoot.updateH();
+    return newRoot;
   }
   
   /**
@@ -74,9 +89,7 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     
     @SuppressWarnings("unchecked")
     Node<T,P> tempN = new Node(value, priority);
-    if(currSize==0){root=tempN;}else{
-      enqueue(root, tempN);
-    }
+    root = enqueue(root, tempN);
     currSize++;
   }
   
@@ -90,33 +103,76 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     }
     if(node.getPriority().compareTo(root.getPriority()) < 0){
       root.left = enqueue(root.left, node);
-    } else if(node.getPriority().compareTo(root.getPriority()) >= 0){
+    } else if(node.getPriority().compareTo(root.getPriority()) >/*no duplicated keys right now*/ 0){
       root.right = enqueue(root.right, node);
     }
+    
+    int balance = balance(root);
+    
+    //Single right rotation
+    if(balance > 1 && node.getPriority().compareTo(root.left.getPriority()) < 0){
+      return rotateRight(root);
+    }
+    //Single left rotation
+    if(balance < -1 && node.getPriority().compareTo(root.right.getPriority()) > 0){
+      return rotateLeft(root);
+    }
+    //Double leftright rotation
+    if(balance > 1 && node.getPriority().compareTo(root.left.getPriority()) > 0){
+      root.left = rotateLeft(root.left);
+      return rotateRight(root);
+    }
+    //Double rightleft rotation
+    if(balance < -1 && node.getPriority().compareTo(root.right.getPriority()) < 0){
+      root.right = rotateRight(root.right);
+      return rotateLeft(root);
+    }
+    
     return root;
   }
   
   /**
-   * remove the value with the highest priority Done - Need to rebalance tree
+   * remove the value with the highest priority Done
    * (i.e. smallest priority value)
    */
   public T dequeue()
   {
     if(currSize==0){return null;}
-    T dataReturn = peek();
+    T dataReturn = peek();    
     root = dequeueRecursive(root);
     currSize--;
     return dataReturn;
   }
   
   /**
-   * helper method for dequeueing  Done - Need to rebalance tree
+   * helper method for dequeueing 
    */
   private Node<T,P> dequeueRecursive(Node<T,P> node){
-    if(node.left == null){
-      return node.right;
-    }
+    if(node.left==null){
+      node=node.right;
+    }else{
     node.left = dequeueRecursive(node.left);
+    }
+    int balance = balance(node);
+    
+    //Single right rotation
+    if(balance > 1 && node.getPriority().compareTo(root.left.getPriority()) < 0){
+      return rotateRight(root);
+    }
+    //Single left rotation
+    if(balance < -1 && node.getPriority().compareTo(root.right.getPriority()) > 0){
+      return rotateLeft(root);
+    }
+    //Double leftright rotation
+    if(balance > 1 && node.getPriority().compareTo(root.left.getPriority()) < 0){
+      root.left = rotateLeft(root.left);
+      return rotateRight(root);
+    }
+    //Double rightleft rotation
+    if(balance < -1 && node.getPriority().compareTo(root.right.getPriority()) > 0){
+      root.right = rotateRight(root.right);
+      return rotateLeft(root);
+    }
     return node;
   }
   
@@ -201,9 +257,8 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
       return;
     }
     toS(node.left);
-    System.out.println(String.format("V: %s | P: %s", node.getData(), node.getPriority()));
+    System.out.println(String.format("V: %s | P: %s | Height: %s", node.getData(), node.getPriority(), height(node)));
     toS(node.right);
-    
   }
   //MyGenericNode Class
   private static class Node<T,P> {
@@ -218,7 +273,6 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     public Node<T,P> left = null;
     public Node<T,P> right = null;
     
-    private int height;
     
     public T getData(){
       return data;
@@ -227,61 +281,30 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     public P getPriority(){
       return priority;
     }
-    /**
-     * Getter for height
-     */
-    public int getHeight(){
-      updateH();
-      return height;
-    }
     
-    /**
-     * wrapper for height function of node
-     */
-    public void updateH(){
-      height = height(this);
-    }
-    
-    /**
-     * private max function to help find height
-     */
-    private int max(int a, int b){
-      if(a>b){return a;}
-      else{return b;}
-    }
-    /**
-     * Find height
-     */
-    private int height(Node<T,P> node){
-      if(node==null){return 0;}
-      return 1+max(height(node.left), height(node.right));
-    }
   }
   
   @SuppressWarnings("unchecked")
   static public void main(String [] args)
   {
     AVLPQ<String, Integer> PQ = new AVLPQ();
-    PQ.enqueue("last", 4);
-    PQ.enqueue("middleish", 10);
-    PQ.enqueue("widsflsk", 3);
-    PQ.enqueue("sfdsfda", 6);
-    PQ.toS(PQ.root);
-    System.out.println("+++++++++++++++++++++++++++");
+    int n = 1000;
+    for(int i=0;i<n;i++){
+      String word="hah";
+      Integer prioirty=i;
+      PQ.enqueue(word,prioirty);
+    }
+
     
-    System.out.println("+++++++++++++++++++++++++++");
-    /**
-     AVLPQ<String, Integer> EQ = new AVLPQ();
-     EQ.enqueue("1", 1);
-     EQ.enqueue("5", 5);
-     EQ.enqueue("2", 2);
-     EQ.enqueue("3", 3);
-     EQ.toS(EQ.root);
-     System.out.println("+++++++++++++++++++++++++++");
-     AVLPQ<String, Integer> bs = new AVLPQ();
-     bs = PQ.merge(EQ);
-     bs.toS(bs.root);
-     */
+    PQ.toS(PQ.root);
+    System.out.println("This AVL tree has a height of " + PQ.height(PQ.root) + " with " + PQ.size() + " objects.");
+        System.out.println("+++++++++++++++++++++++++++");
+    for(int i=0;i<n/2;i++){
+      PQ.dequeue();
+    }
+        System.out.println("+++++++++++++++++++++++++++");
+    PQ.toS(PQ.root);
+    System.out.println("This AVL tree has a height of " + PQ.height(PQ.root) + " with " + PQ.size() + " objects.");
   }
   
   //==================================================================
