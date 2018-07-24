@@ -140,33 +140,7 @@ public class DynamicArrayPQ<T, P extends Comparable<P>> implements PriorityQueue
       return priority;
     }
   }
-  
-  
-  @SuppressWarnings("unchecked")
-  static public void main(String [] args)
-  {
-    DynamicArrayPQ<String, Integer> PQ = new DynamicArrayPQ();
-    PQ.enqueue("last", 4);
-    PQ.enqueue("middleish", 10);
-    PQ.enqueue("widsflsk", 3);
-    PQ.enqueue("sfdsfda", 6);
-    PQ.toS();
-    
 
-    System.out.println("+++++++++++++++++++++++++++");
-    
-    DynamicArrayPQ<String, Integer> EQ = new DynamicArrayPQ();
-    EQ.enqueue("1", 1);
-    EQ.enqueue("5", 5);
-    EQ.enqueue("2", 2);
-    EQ.enqueue("3", 3);
-    EQ.toS();
-    System.out.println("+++++++++++++++++++++++++++");
-    DynamicArrayPQ<String, Integer> bs = new DynamicArrayPQ();
-    bs = PQ.merge(EQ);
-    bs.toS();
-    
-  }
   
   
   

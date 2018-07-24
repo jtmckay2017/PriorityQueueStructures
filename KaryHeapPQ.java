@@ -216,44 +216,7 @@ public class KaryHeapPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P
     }
   }
   
-  @SuppressWarnings("unchecked")
-  static public void main(String [] args)
-  {
-    KaryHeapPQ<String, Integer> PQ = new KaryHeapPQ();
-    PQ.enqueue("4", 4);
-    PQ.enqueue("5", 5);
-    PQ.enqueue("10", 10);
-    PQ.enqueue("8", 8);
-    PQ.enqueue("6", 6);
-    PQ.enqueue("9", 9);
-    PQ.enqueue("7", 7);
-    PQ.toS();
 
-    KaryHeapPQ<String, Integer> Q = new KaryHeapPQ();
-    Q.enqueue("Hey", 4);
-    Q.enqueue("Now", 5);
-    Q.enqueue("big0", 10);
-    Q.enqueue("late8", 8);
-    Q.enqueue("fit6", 6);
-    Q.enqueue("die9", 9);
-    Q.enqueue("bas7", 7);
-    Q.toS();
-    KaryHeapPQ<String, Integer> RW = new KaryHeapPQ();
-    RW = PQ.merge(Q);
-    int size= RW.size();
-    for(int i=0; i<size; i++){
-        String value=RW.peek();
-        Integer priority=RW.peekPriority();
-        System.out.print("("+value+","+priority+") ");
-        RW.dequeue();
-    }
-    
-    System.out.println("+++++++++++++++++++++++++++");
-    
-    
-    
-    
-  }
   //==================================================================
   // do not modify anything below
   //==================================================================

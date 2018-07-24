@@ -284,28 +284,6 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     
   }
   
-  @SuppressWarnings("unchecked")
-  static public void main(String [] args)
-  {
-    AVLPQ<String, Integer> PQ = new AVLPQ();
-    int n = 1000;
-    for(int i=0;i<n;i++){
-      String word="hah";
-      Integer prioirty=i;
-      PQ.enqueue(word,prioirty);
-    }
-
-    
-    PQ.toS(PQ.root);
-    System.out.println("This AVL tree has a height of " + PQ.height(PQ.root) + " with " + PQ.size() + " objects.");
-        System.out.println("+++++++++++++++++++++++++++");
-    for(int i=0;i<n/2;i++){
-      PQ.dequeue();
-    }
-        System.out.println("+++++++++++++++++++++++++++");
-    PQ.toS(PQ.root);
-    System.out.println("This AVL tree has a height of " + PQ.height(PQ.root) + " with " + PQ.size() + " objects.");
-  }
   
   //==================================================================
   // do not modify anything below
