@@ -246,29 +246,7 @@ public class BinomialHeapPQ<T, P extends Comparable<P>> implements PriorityQueue
   }
   
   
-  
-      //*************************************************************************
-    //*************************************************************************
-    //*************************************************************************
-    /* Function to display heap */
-    public void displayHeap()
-    {
-      System.out.print("\nHeap : ");
-      displayHeap(head);
-      System.out.println("\n");
-    }
-    private void displayHeap(Node<T,P> r)
-    {
-      if (r != null)
-      {
-        displayHeap(r.child);
-        System.out.print(r.getPriority() +" ");
-        displayHeap(r.sibling);
-      }
-    }
-    //********************************************************************************
-    //********************************************************************************
-    //********************************************************************************
+
   
   
   
@@ -303,37 +281,17 @@ public class BinomialHeapPQ<T, P extends Comparable<P>> implements PriorityQueue
     
     public Node<T,P> reverse(Node<T,P> node) 
     {
-            Node<T,P> ret;
+            Node<T,P> rev;
             if (sibling != null)
-                ret = sibling.reverse(this);
+                rev = sibling.reverse(this);
             else
-                ret = this;
+                rev = this;
             sibling = node;
-            return ret;
+            return rev;
     }
   }
   
-  public static void main(String[] args){
-    
-    BinomialHeapPQ<Integer,Integer> PQ = new BinomialHeapPQ<>();
-    int n = 10;
-    for(int i=1; i<n; i++){
-      PQ.enqueue(i,i);
-    }
-    System.out.println(PQ.size());
-    BinomialHeapPQ<Integer,Integer> fs = new BinomialHeapPQ<>();
-    n = 30;
-    for(int i=10; i<n; i++){
-      fs.enqueue(i,i);
-    }
-    System.out.println(fs.size());
-    @SuppressWarnings("unchecked")
-    BinomialHeapPQ<Integer,Integer> merged = PQ.merge(fs);
-    
-    
-    merged.displayHeap();
 
-  }
   //==================================================================
   // do not modify anything below
   //==================================================================
