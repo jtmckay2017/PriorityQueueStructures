@@ -66,7 +66,7 @@ public class BinomialHeapPQ<T, P extends Comparable<P>> implements PriorityQueue
       x = x.sibling;
     }
     if((head==null)&&(old==null)){
-      currSize=0;
+      //empty
     }
     else{
       if((head==null) && (old!=null)){
@@ -75,7 +75,7 @@ public class BinomialHeapPQ<T, P extends Comparable<P>> implements PriorityQueue
         if((head!=null)&&(old==null)){
           //do nothing
         }else{
-          head = unionBiHeap(old.reverse(null), head);
+          head = unionBiHeap(head, old.reverse(null));
         }
       }
     }

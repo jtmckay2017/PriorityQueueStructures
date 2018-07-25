@@ -84,8 +84,8 @@ public class cs310pa3
 
       //init
       Random random = new Random(System.currentTimeMillis());
-      int n=20;//(int)Math.floor(words.size()*(random.nextDouble()/10));
-      int m=20;//(int)Math.floor(words.size()*(random.nextDouble()/10));
+      int n=(int)Math.floor(words.size()*(random.nextDouble()/10));
+      int m=(int)Math.floor(words.size()*(random.nextDouble()/10));
 
       System.out.println("[02] n="+n+" m="+m);
 
