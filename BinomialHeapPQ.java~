@@ -5,62 +5,341 @@
 
 public class BinomialHeapPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
 {
-
-    //constructor
-    public BinomialHeapPQ()
-    {
-
+  private int currSize = 0;
+  
+  
+  @SuppressWarnings("unchecked")
+  private Node<T,P> head = null;
+  
+  /**
+   * constructor
+   */
+  public BinomialHeapPQ()
+  {
+  }
+  
+  /**
+   * Private constructor to use allow use of merge on insert.
+   */
+  private BinomialHeapPQ(Node<T,P> node){
+    this.head = node;
+  }
+  
+  /**
+   * add the given value using the provided priority
+   */
+  public void enqueue(T value, P priority)
+  {
+    
+    Node<T,P> temp = new Node<T,P>(value, priority);
+    if(head ==null){head=temp;}else{
+      head = unionBiHeap(head, temp);
     }
-
-    //add the given value using the provided priority
-    public void enqueue(T value, P priority)
-    {
+    currSize++;
+  }
+  
+  /**
+   * remove the value with the highest priority
+   * (i.e. smallest priority value)
+   */
+  public T dequeue()
+  {
+    if(head==null){return null;}
+    Node<T,P> min = findMin();
+    Node<T,P> x = head;
+    Node<T,P> prev_x = null;
+    while(x.getPriority() != min.getPriority()){
+      prev_x = x;
+      x = x.sibling;
     }
-
-    //remove the value with the highest priority
-    //(i.e. smallest priority value)
-    public T dequeue()
-    {
-        return null;
+    if(prev_x==null){//if smallest is first root in heap just set head to sibling of x
+      head = x.sibling;
     }
-
-    //return the value of the element with highest priority
-    //(i.e. smallest priority value)
-    public T peek()
-    {
-        return null;
+    else{//if smallest is not first root in heap. remove the link to x and set prev_x to x.sibling
+      prev_x.sibling = x.sibling;
     }
-
-    //return the priority of the element with highest priority
-    //(i.e. smallest priority value)
-    public P peekPriority()
-    {
-        return null;
+    x=x.child;
+    Node<T,P> old = x;
+    
+    while(x != null){
+      x.parent = null;
+      x = x.sibling;
     }
-
-    //remove everything in the priority queue
-    public void clear()
-    {
+    if((head==null)&&(old==null)){
+      currSize=0;
     }
-
-    //merge two priority queues into one and return the merged priority queue
-    public BinomialHeapPQ  merge(BinomialHeapPQ other)
-    {
-        return null;
+    else{
+      if((head==null) && (old!=null)){
+        head = old.reverse(null);
+      }else{
+        if((head!=null)&&(old==null)){
+          //do nothing
+        }else{
+          unionBiHeap(head, old.reverse(null));
+        }
+      }
     }
+    currSize--;
+    return min.getData();
+  }
 
-    //return the size of the given priority queue
-    public int size()
-    {
-        return 0;
+  
+  private Node<T,P> mergeBiHeap(Node<T,P> h1, Node<T,P> h2){
+    Node<T,P> temp1 = h1, temp2 = h2;
+    while((temp1 != null) && (temp2 != null)){
+      if(temp1.degree == temp2.degree){
+        Node<T,P> tmp = temp2;
+        temp2 = temp2.sibling;
+        tmp.sibling = temp1.sibling;
+        temp1.sibling = tmp;
+        temp1 = tmp.sibling;
+      } else {
+        if(temp1.degree < temp2.degree){
+          if((temp1.sibling == null) || (temp1.sibling.degree > temp2.degree)){
+            Node<T,P> tmp = temp2;
+            temp2 = temp2.sibling;
+            tmp.sibling = temp1.sibling;
+            temp1.sibling = tmp;
+            temp1 = tmp.sibling;
+          } else {
+            temp1 = temp1.sibling;
+          }
+        } else {
+          Node<T,P> tmp = temp1;
+          temp1 = temp2;
+          temp2 = temp2.sibling;
+          temp1.sibling = tmp;
+          if (tmp == head){
+            head = temp1; //this is weird one
+          }
+        }
+      }      
     }
+    if(temp1 == null){
+      temp1 = head;
+      while(temp1.sibling != null){
+        temp1 = temp1.sibling;
+      }
+      temp1.sibling = temp2;
+    }
+    return head;
+    
+  }
+  
+  /**
+   * unionBiHeap | union two binomial heaps
+   */
+  private Node<T,P> unionBiHeap(Node<T,P> h1, Node<T,P> h2){
+    Node<T,P> H = null;
+    H = mergeBiHeap(h1, h2);
+    if(H==null){return H;}
+    Node<T,P> prev_x=null;
+    Node<T,P> x = H;
+    Node<T,P> next_x = x.sibling;
+    while(next_x != null){
+      if((x.degree != next_x.degree) || (next_x.sibling != null && next_x.sibling.degree == x.degree)){
+        prev_x = x;
+        x = next_x;
+      } else {
+        if(x.getPriority().compareTo(next_x.getPriority()) <= 0) {
+          x.sibling = next_x.sibling;
+          linkBiTrees(next_x, x);
+        } else {
+          if(prev_x == null){
+            H = next_x;
+          } else {
+            prev_x.sibling = next_x;
+          }
+          linkBiTrees(x, next_x);
+          x = next_x;
+          
+        }
+      }
+      next_x = x.sibling;
+    }
+    return H;
+  }
+    
+  /**
+   * link two binomial trees and return root
+   */
+  private Node<T,P> linkBiTrees(Node<T,P> y, Node<T,P> z){
+    if(y.getPriority().compareTo(z.getPriority()) > 0){
+      Node<T,P> temp = y;
+      y = z;
+      z = temp;
+    }
+    z.parent = y;
+    z.sibling = y.child;
+    y.child = z;
+    y.degree += 1;
+    return y;
+  }
+  
+  /**
+   * Find min
+   */
+  private Node<T,P> findMin(){
+    Node<T,P> y = head;
+    Node<T,P> x = head;
+    while(x!=null){
+      if(x.getPriority().compareTo(y.getPriority()) < 0){
+        y = x;
+      }
+      x=x.sibling;
+    }
+    return y;
+  }
+  /**
+   * return the value of the element with highest priority
+   * (i.e. smallest priority value)
+   */
+  public T peek()
+  {
+    return null;
+  }
+  
+  /**
+   * return the priority of the element with highest priority
+   * (i.e. smallest priority value)
+   */
+  public P peekPriority()
+  {
+    return null;
+  }
+  
+  /**
+   * remove everything in the priority queue - Done
+   */
+  public void clear()
+  {
+    head = null;
+    currSize=0;
+  }
+  
+  /**
+   * merge two priority queues into one and return the merged priority queue
+   */
+  @SuppressWarnings("unchecked")
+  public BinomialHeapPQ  merge(BinomialHeapPQ other)
+  {
+    int size = this.size()+other.size();
+    Node<T,P> newHead = unionBiHeap(this.head, other.head);
+    BinomialHeapPQ newHeap = new BinomialHeapPQ(newHead);
+    newHeap.currSize = size;
+    return newHeap;
+  }
+  
+  /**
+   * return the size of the given priority queue - Done
+   */
+  public int size()
+  {
+    return currSize;
+  }
+  
+  /**
+   * Helper method check if empty
+   */
+  private boolean isEmpty(){
+    return currSize==0;
+  }
+  
+  
+  
+      //*************************************************************************
+    //*************************************************************************
+    //*************************************************************************
+    /* Function to display heap */
+    public void displayHeap()
+    {
+      System.out.print("\nHeap : ");
+      displayHeap(head);
+      System.out.println("\n");
+    }
+    private void displayHeap(Node<T,P> r)
+    {
+      if (r != null)
+      {
+        displayHeap(r.child);
+        System.out.print(r.getPriority() +" ");
+        displayHeap(r.sibling);
+      }
+    }
+    //********************************************************************************
+    //********************************************************************************
+    //********************************************************************************
+  
+  
+  
+  
+  /**
+   *MyGenericNode Class
+   */
+  private static class Node<T,P> {
+    Node(T data, P priority){
+      this.data = data;
+      this.priority = priority;
+    }
+    
+    private T data;
+    private P priority;
+    
+    public int degree=0;;
+    
+    public Node<T,P> parent = null;
+    public Node<T,P> sibling = null;
+    public Node<T,P> child = null;
+    
+    
+    
+    public T getData(){
+      return data;
+    }
+    
+    public P getPriority(){
+      return priority;
+    }
+    
+    public Node<T,P> reverse(Node<T,P> node) 
+    {
+            Node<T,P> ret;
+            if (sibling != null)
+                ret = sibling.reverse(this);
+            else
+                ret = this;
+            sibling = node;
+            return ret;
+    }
+  }
+  
+  public static void main(String[] args){
+    
+    BinomialHeapPQ<Integer,Integer> PQ = new BinomialHeapPQ<>();
+    int n = 10;
+    for(int i=1; i<n; i++){
+      PQ.enqueue(i,i);
+    }
+    System.out.println(PQ.size());
+    BinomialHeapPQ<Integer,Integer> fs = new BinomialHeapPQ<>();
+    n = 30;
+    for(int i=10; i<n; i++){
+      fs.enqueue(i,i);
+    }
+    System.out.println(fs.size());
+    @SuppressWarnings("unchecked")
+    BinomialHeapPQ<Integer,Integer> merged = PQ.merge(fs);
+    
+    
+    merged.displayHeap();
 
-    //==================================================================
-    // do not modify anything below
-    //==================================================================
-    //merge two priority queues into one and return the merged priority queue
-    public PriorityQueue  merge(PriorityQueue other)
-    {
-      return merge((BinomialHeapPQ)other);
-    }
+  }
+  //==================================================================
+  // do not modify anything below
+  //==================================================================
+  //merge two priority queues into one and return the merged priority queue
+  public PriorityQueue  merge(PriorityQueue other)
+  {
+    return merge((BinomialHeapPQ)other);
+  }
 }
